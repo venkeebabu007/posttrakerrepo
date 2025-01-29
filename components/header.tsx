@@ -19,7 +19,7 @@ export function Header() {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <div>Dash Board</div>
+              <div>Dash Board2</div>
               {/* <Link href="/dashboard" className="text-gray-600 hover:text-blue-600">
                 Dashboard
               </Link> */}
