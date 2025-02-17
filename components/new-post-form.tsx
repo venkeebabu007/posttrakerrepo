@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -10,8 +12,6 @@ import dynamic from "next/dynamic"
 const DatePicker = dynamic(() => import("react-datepicker"), { ssr: false })
 import "react-datepicker/dist/react-datepicker.css"
 import { createClient } from "@/utils/supabase/client"
-
-// Removed DEFAULT_USER_ID constant
 
 interface Client {
   id: string
@@ -31,7 +31,12 @@ interface MediaType {
 export function NewPostForm({
   onPostCreated,
   onClose,
-}: { onPostCreated: (newPost: any) => void; onClose: () => void }) {
+  refreshDashboard,
+}: {
+  onPostCreated: (newPost: any) => void
+  onClose: () => void
+  refreshDashboard: () => void
+}) {
   const [clients, setClients] = useState<Client[]>([])
   const [platforms, setPlatforms] = useState<Platform[]>([])
   const [mediaTypes, setMediaTypes] = useState<MediaType[]>([])
@@ -121,13 +126,9 @@ export function NewPostForm({
 
       if (data) {
         console.log("Post created successfully:", data)
-        toast({
-          title: "Success",
-          description: "Post created successfully.",
-        })
         onPostCreated(data[0])
         resetForm()
-        onClose()
+        refreshDashboard()
       } else {
         throw new Error("No data returned from insert operation")
       }
